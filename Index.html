@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartSheet Solution | Excel, Marketing, IT & Portraits IA</title>
+  <meta name="description" content="Solutions Excel, formations, maintenance informatique, marketing et portraits réalistes. Services professionnels au Cameroun.">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  
+  <style>
+    /* ===== VARIABLES MODE CLAIR (par défaut) ===== */
+    :root {
+      --primary: #1a1a1a;
+      --secondary: #2563eb;
+      --accent: #f0f9ff;
+      --text: #333;
+      --text-light: #666;
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(0,0,0,0.1);
+      --shadow-hover: 0 20px 40px rgba(37, 99, 235, 0.2);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    /* ===== VARIABLES MODE SOMBRE ===== */
+    [data-theme="dark"] {
+      --primary: #f8f9ff;
+      --secondary: #667eea;
+      --accent: #1a1a2e;
+      --text: #f1f5f9;
+      --text-light: #cbd5e1;
+      --white: #0f172a;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      --shadow-hover: 0 20px 40px rgba(102, 126, 234, 0.3);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; line-height: 1.3; }
+    a { text-decoration: none; color: inherit; transition: var(--transition); }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+    
+    header {
+      position: fixed; top: 0; width: 100%;
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 1rem 5%;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    [data-theme="dark"] header {
+      background: rgba(15, 23, 42, 0.95);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon {
+      width: 45px; height: 45px;
+      background: linear-gradient(135deg, var(--secondary), #1d4ed8);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white); font-weight: bold; font-size: 1.2rem;
+    }
+    .logo-text { color: var(--white); font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; transition: color 0.3s ease; }
+    [data-theme="dark"] .logo-text { color: var(--text); }
+    .logo-text span { color: var(--secondary); }
+    
+    .theme-toggle {
+      width: 45px; height: 45px; border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--white); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; transition: var(--transition);
+      margin-right: 1rem;
+    }
+    [data-theme="dark"] .theme-toggle {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: var(--text);
+    }
+    .theme-toggle:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
+    .theme-toggle .fa-sun { display: none; }
+    .theme-toggle .fa-moon { display: block; }
+    [data-theme="dark"] .theme-toggle .fa-sun { display: block; }
+    [data-theme="dark"] .theme-toggle .fa-moon { display: none; }
+    
+    nav ul { display: flex; gap: 2rem; }
+    nav a { color: var(--white); font-weight: 500; font-size: 0.95rem; position: relative; padding: 0.5rem 0; transition: color 0.3s ease; }
+    [data-theme="dark"] nav a { color: var(--text); }
+    nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--secondary); transition: var(--transition); }
+    nav a:hover::after { width: 100%; }
+    nav a:hover { color: var(--secondary); }
+    .mobile-toggle { display: none; color: var(--white); font-size: 1.5rem; cursor: pointer; }
+    [data-theme="dark"] .mobile-toggle { color: var(--text); }
+    
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, rgba(26,26,26,0.92), rgba(37,99,235,0.85)), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&q=80');
+      background-size: cover; background-position: center;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 2rem; color: var(--white);
+    }
+    [data-theme="dark"] .hero {
+      background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(102,126,234,0.9)), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&q=80');
+    }
+    .hero-content { max-width: 800px; animation: fadeInUp 1s ease; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .hero h1 { font-size: 3.2rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+    .hero .slogan { font-size: 1.4rem; font-style: italic; color: #93c5fd; margin-bottom: 2rem; font-weight: 300; }
+    .hero p { font-size: 1.15rem; margin-bottom: 2.5rem; opacity: 0.95; max-width: 650px; margin-left: auto; margin-right: auto; }
+    
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 1rem 2.3rem; background: var(--secondary);
+      color: var(--white); border-radius: 50px;
+      font-weight: 600; font-size: 1rem;
+      box-shadow: var(--shadow); transition: var(--transition);
+      border: 2px solid var(--secondary);
+    }
+    .btn:hover { background: transparent; color: var(--secondary); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .btn-outline { background: transparent; border: 2px solid var(--white); margin-left: 1rem; }
+    .btn-outline:hover { background: var(--white); color: var(--primary); }
+    
+    section { padding: 5rem 10%; }
+    .section-title { text-align: center; margin-bottom: 4rem; }
+    .section-title h2 { font-size: 2.3rem; color: var(--primary); margin-bottom: 1rem; position: relative; display: inline-block; transition: color 0.3s ease; }
+    [data-theme="dark"] .section-title h2 { color: var(--text); }
+    .section-title h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: var(--secondary); }
+    .section-title p { color: var(--text-light); max-width: 600px; margin: 1.5rem auto 0; transition: color 0.3s ease; }
+    
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.2rem; }
+    .product-card {
+      background: var(--white); border-radius: 20px; overflow: hidden;
+      box-shadow: var(--shadow); transition: var(--transition);
+      position: relative; cursor: pointer; border: 1px solid rgba(0,0,0,0.05);
+    }
+    [data-theme="dark"] .product-card { background: var(--accent); border-color: rgba(255, 255, 255, 0.1); }
+    .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); border-color: var(--secondary); }
+    .product-image { height: 220px; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .product-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+    .product-card:hover .product-image img { transform: scale(1.08); }
+    .product-badge { position: absolute; top: 1rem; right: 1rem; background: var(--secondary); color: var(--white); padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; z-index: 2; }
+    .product-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(37,99,235,0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
+    .product-card:hover .product-overlay { opacity: 1; }
+    .view-catalog { background: var(--white); color: var(--secondary); padding: 0.8rem 1.8rem; border-radius: 50px; font-weight: 600; display: flex; align-items: center; gap: 8px; transform: translateY(20px); transition: transform 0.3s ease; font-size: 0.95rem; }
+    .product-card:hover .view-catalog { transform: translateY(0); }
+    .product-info { padding: 1.6rem; }
+    .product-info h3 { font-size: 1.3rem; margin-bottom: 0.6rem; color: var(--primary); transition: color 0.3s ease; }
+    [data-theme="dark"] .product-info h3 { color: var(--text); }
+    .product-info p { color: var(--text-light); font-size: 0.92rem; margin-bottom: 1rem; line-height: 1.5; }
+    .product-price { font-weight: 600; color: var(--secondary); font-size: 1.1rem; margin-bottom: 1rem; display: block; }
+    .explore-btn { width: 100%; padding: 0.9rem; background: var(--primary); color: var(--white); border: none; border-radius: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition); font-size: 0.95rem; }
+    .explore-btn:hover { background: var(--secondary); transform: scale(1.02); }
+    
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; overflow-y: auto; backdrop-filter: blur(5px); }
+    .modal.active { display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+    .modal-content {
+      background: var(--white); border-radius: 25px;
+      max-width: 1100px; width: 100%; max-height: 90vh;
+      overflow-y: auto; position: relative;
+      animation: modalSlideIn 0.4s ease;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    }
+    [data-theme="dark"] .modal-content { background: var(--accent); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); }
+    @keyframes modalSlideIn { from { opacity: 0; transform: translateY(-50px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary), #374151);
+      color: var(--white); padding: 2rem 2.5rem;
+      position: relative; border-radius: 25px 25px 0 0;
+    }
+    [data-theme="dark"] .modal-header { background: linear-gradient(135deg, var(--accent), #1e293b); color: var(--text); }
+    .modal-header h2 { font-size: 1.9rem; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 12px; }
+    .modal-header p { opacity: 0.9; font-size: 1rem; }
+    .modal-close { position: absolute; top: 1.2rem; right: 1.2rem; width: 40px; height: 40px; background: rgba(255,255,255,0.15); border: none; border-radius: 50%; color: var(--white); font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+    .modal-close:hover { background: var(--secondary); transform: rotate(90deg); }
+    .modal-body { padding: 2rem 2.5rem; }
+    .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.8rem; }
+    .catalog-item {
+      background: var(--white); border-radius: 16px;
+      overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      transition: var(--transition); border: 1px solid rgba(0,0,0,0.05);
+    }
+    [data-theme="dark"] .catalog-item { background: var(--white); border-color: rgba(255, 255, 255, 0.1); }
+    .catalog-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--secondary); }
+    .catalog-item-image { height: 180px; background: linear-gradient(135deg, #f8fafc, #e2e8f0); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .catalog-item-image img { width: 100%; height: 100%; object-fit: cover; }
+    .catalog-item-badge { position: absolute; top: 10px; left: 10px; background: var(--secondary); color: var(--white); padding: 0.25rem 0.7rem; border-radius: 12px; font-size: 0.7rem; font-weight: 600; }
+    .catalog-item-info { padding: 1.3rem; }
+    .catalog-item-info h4 { font-size: 1.1rem; margin-bottom: 0.4rem; color: var(--primary); }
+    [data-theme="dark"] .catalog-item-info h4 { color: var(--text); }
+    .catalog-item-info p { color: var(--text-light); font-size: 0.88rem; margin-bottom: 0.9rem; line-height: 1.4; }
+    .catalog-item-price { font-weight: 700; color: var(--secondary); font-size: 1.15rem; margin-bottom: 0.9rem; display: block; }
+    .catalog-order-btn { width: 100%; padding: 0.8rem; background: #25D366; color: var(--white); border: none; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: var(--transition); font-size: 0.9rem; }
+    .catalog-order-btn:hover { background: #128C7E; transform: scale(1.03); }
+    
+    .about { background: var(--accent); }
+    [data-theme="dark"] .about { background: var(--accent); }
+    .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; }
+    .about-text h3 { font-size: 1.9rem; margin-bottom: 1.3rem; color: var(--primary); }
+    [data-theme="dark"] .about-text h3 { color: var(--text); }
+    .about-text p { margin-bottom: 1.3rem; color: var(--text-light); font-size: 0.98rem; }
+    .values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1.8rem; }
+    .value-item {
+      text-align: center; padding: 1.3rem 1rem;
+      background: var(--white); border-radius: 14px;
+      box-shadow: var(--shadow); transition: var(--transition);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    [data-theme="dark"] .value-item { background: var(--white); border-color: rgba(255, 255, 255, 0.1); }
+    .value-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .value-item i { font-size: 1.8rem; color: var(--secondary); margin-bottom: 0.8rem; }
+    .value-item h4 { font-size: 1rem; margin-bottom: 0.4rem; color: var(--primary); font-weight: 600; }
+    [data-theme="dark"] .value-item h4 { color: var(--text); }
+    .value-item p { font-size: 0.85rem; color: var(--text-light); margin: 0; }
+    .about-image {
+      height: 380px; background: linear-gradient(135deg, var(--primary), #374151);
+      border-radius: 20px; display: flex; align-items: center;
+      justify-content: center; color: var(--secondary);
+      font-size: 4.5rem; box-shadow: var(--shadow); overflow: hidden;
+    }
+    [data-theme="dark"] .about-image { background: linear-gradient(135deg, var(--accent), #1e293b); }
+    .about-image img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .contact { background: var(--primary); color: var(--white); }
+    [data-theme="dark"] .contact { background: var(--white); color: var(--text); }
+    .contact .section-title h2 { color: var(--white); }
+    [data-theme="dark"] .contact .section-title h2 { color: var(--text); }
+    .contact .section-title h2::after { background: var(--secondary); }
+    .contact .section-title p { color: rgba(255,255,255,0.85); }
+    [data-theme="dark"] .contact .section-title p { color: var(--text-light); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.8rem; }
+    .contact-item { display: flex; align-items: flex-start; gap: 1rem; }
+    .contact-item i { font-size: 1.4rem; color: var(--secondary); min-width: 30px; margin-top: 3px; }
+    .contact-item div h4 { font-size: 1.05rem; margin-bottom: 0.25rem; font-weight: 600; }
+    .contact-item div p, .contact-item div a { color: rgba(255,255,255,0.9); font-size: 0.98rem; }
+    [data-theme="dark"] .contact-item div p, [data-theme="dark"] .contact-item div a { color: var(--text-light); }
+    .contact-item div a:hover { color: var(--secondary); }
+    .whatsapp-box {
+      background: rgba(255,255,255,0.08); padding: 1.8rem;
+      border-radius: 20px; border: 1px solid rgba(37,99,235,0.4);
+    }
+    [data-theme="dark"] .whatsapp-box { background: rgba(255, 255, 255, 0.05); border-color: rgba(102, 126, 234, 0.4); }
+    .whatsapp-box h3 { font-size: 1.4rem; margin-bottom: 0.9rem; display: flex; align-items: center; gap: 10px; }
+    .whatsapp-box h3 i { color: #25D366; }
+    .whatsapp-box p { margin-bottom: 1.3rem; opacity: 0.92; font-size: 0.95rem; line-height: 1.5; }
+    .whatsapp-btn {
+      width: 100%; padding: 0.95rem; background: #25D366;
+      color: var(--white); border: none; border-radius: 12px;
+      font-weight: 600; font-size: 1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: var(--transition); animation: pulse 2.5s infinite;
+    }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(37,211,102,0.35); } 50% { box-shadow: 0 0 0 12px rgba(37,211,102,0); } }
+    .whatsapp-btn:hover { background: #128C7E; transform: translateY(-2px); animation: none; }
+    .order-form { margin-top: 1.3rem; }
+    .order-form select, .order-form input, .order-form textarea {
+      width: 100%; padding: 0.85rem; margin-bottom: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;
+      background: rgba(255,255,255,0.12); color: var(--white);
+      font-family: inherit; font-size: 0.95rem;
+    }
+    [data-theme="dark"] .order-form select, [data-theme="dark"] .order-form input, [data-theme="dark"] .order-form textarea {
+      background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); color: var(--text);
+    }
+    .order-form select option { background: var(--primary); color: var(--white); }
+    .order-form ::placeholder { color: rgba(255,255,255,0.65); }
+    [data-theme="dark"] .order-form ::placeholder { color: rgba(241, 245, 249, 0.6); }
+    .order-form select:focus, .order-form input:focus, .order-form textarea:focus {
+      outline: none; border-color: var(--secondary);
+      background: rgba(255,255,255,0.2);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+    
+    footer {
+      background: #111; color: rgba(255,255,255,0.7);
+      text-align: center; padding: 2rem; font-size: 0.9rem;
+    }
+    [data-theme="dark"] footer { background: #0a0f1a; color: rgba(241, 245, 249, 0.7); }
+    footer .social-links { display: flex; justify-content: center; gap: 1.3rem; margin: 1rem 0; }
+    footer .social-links a {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(255,255,255,0.1); display: flex;
+      align-items: center; justify-content: center;
+      transition: var(--transition); font-size: 0.95rem;
+    }
+    footer .social-links a:hover { background: var(--secondary); color: var(--white); transform: translateY(-3px); }
+    footer p strong { color: var(--secondary); }
+    
+    @media (max-width: 992px) {
+      .about-content, .contact-grid { grid-template-columns: 1fr; text-align: center; }
+      .about-image { order: -1; }
+      .values { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2.6rem; }
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        position: fixed; top: 70px; right: -100%;
+        width: 260px; height: calc(100vh-70px);
+        background: var(--primary); flex-direction: column;
+        padding: 2rem; gap: 1.5rem; transition: var(--transition);
+        box-shadow: -5px 0 20px rgba(0,0,0,0.2); z-index: 999;
+      }
+      [data-theme="dark"] nav ul { background: var(--white); }
+      nav ul.active { right: 0; }
+      .mobile-toggle { display: block; z-index: 1001; }
+      .hero h1 { font-size: 2.1rem; }
+      .btn { padding: 0.85rem 1.9rem; font-size: 0.92rem; }
+      .btn-outline { margin-left: 0; margin-top: 1rem; }
+      section { padding: 4rem 5%; }
+      .modal-content { margin: 0.5rem; max-height: 95vh; }
+      .catalog-grid { grid-template-columns: 1fr; }
+    }
+    
+    .fade-in { opacity: 0; transform: translateY(25px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    
+    /* ===== ARTEMIS CHATBOT ===== */
+    #artemis-chat-toggle {
+      position: fixed; bottom: 25px; right: 25px;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; border: none; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+      font-size: 28px; display: flex; align-items: center; justify-content: center;
+      z-index: 9999; transition: all 0.3s ease; animation: pulse 2s infinite;
+    }
+    #artemis-chat-toggle:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(102,126,234,0.6); }
+    #artemis-chat-window {
+      position: fixed; bottom: 95px; right: 25px;
+      width: 380px; max-height: 550px; background: var(--white);
+      border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      display: none; flex-direction: column; z-index: 9998;
+      overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      animation: slideUp 0.3s ease;
+    }
+    [data-theme="dark"] #artemis-chat-window { background: var(--accent); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .artemis-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; padding: 15px 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .artemis-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; font-size: 18px;
+    }
+    .artemis-title h3 { margin: 0; font-size: 16px; font-weight: 600; }
+    .artemis-title p { margin: 0; font-size: 12px; opacity: 0.9; }
+    .artemis-close {
+      margin-left: auto; background: none; border: none;
+      color: white; font-size: 20px; cursor: pointer;
+      opacity: 0.8; transition: opacity 0.2s;
+    }
+    .artemis-close:hover { opacity: 1; }
+    .artemis-messages {
+      flex: 1; padding: 15px; overflow-y: auto;
+      background: #f8f9ff; display: flex;
+      flex-direction: column; gap: 12px;
+    }
+    [data-theme="dark"] .artemis-messages { background: rgba(255, 255, 255, 0.05); }
+    .artemis-message {
+      max-width: 85%; padding: 12px 16px;
+      border-radius: 18px; font-size: 14px;
+      line-height: 1.4; animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    .artemis-bot {
+      align-self: flex-start; background: var(--white);
+      border: 1px solid #e0e4ff; border-bottom-left-radius: 5px;
+      color: #333;
+    }
+    [data-theme="dark"] .artemis-bot { background: var(--white); border-color: rgba(255, 255, 255, 0.2); color: var(--text); }
+    .artemis-user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; border-bottom-right-radius: 5px;
+    }
+    .artemis-typing {
+      align-self: flex-start; background: var(--white);
+      border: 1px solid #e0e4ff; padding: 12px 16px;
+      border-radius: 18px; border-bottom-left-radius: 5px;
+      display: none;
+    }
+    [data-theme="dark"] .artemis-typing { background: var(--white); border-color: rgba(255, 255, 255, 0.2); }
+    .artemis-typing span {
+      display: inline-block; width: 8px; height: 8px;
+      background: #667eea; border-radius: 50%;
+      margin: 0 2px; animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .artemis-typing span:nth-child(1) { animation-delay: -0.32s; }
+    .artemis-typing span:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes bounce { 0%,80%,100% { transform: scale(0); } 40% { transform: scale(1); } }
+    .artemis-input-area {
+      padding: 12px 15px; background: var(--white);
+      border-top: 1px solid #eee; display: flex; gap: 10px;
+    }
+    [data-theme="dark"] .artemis-input-area { background: var(--white); border-top-color: rgba(255, 255, 255, 0.2); }
+    #artemis-input {
+      flex: 1; padding: 12px 16px; border: 2px solid #e0e4ff;
+      border-radius: 25px; font-size: 14px;
+      outline: none; transition: border-color 0.2s;
+      background: var(--white); color: var(--text);
+    }
+    [data-theme="dark"] #artemis-input { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3); color: var(--text); }
+    #artemis-input:focus { border-color: #667eea; }
+    #artemis-send {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; border: none; width: 40px; height: 40px;
+      border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; transition: transform 0.2s;
+    }
+    #artemis-send:hover { transform: scale(1.05); }
+    .artemis-quick-replies {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 10px 15px; background: var(--white);
+      border-top: 1px solid #eee;
+    }
+    [data-theme="dark"] .artemis-quick-replies { background: var(--white); border-top-color: rgba(255, 255, 255, 0.2); }
+    .artemis-quick-reply {
+      background: #f0f2ff; border: 1px solid #d0d6ff;
+      padding: 8px 14px; border-radius: 20px;
+      font-size: 12px; cursor: pointer;
+      transition: all 0.2s; color: #667eea;
+    }
+    [data-theme="dark"] .artemis-quick-reply { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3); color: var(--secondary); }
+    .artemis-quick-reply:hover { background: #667eea; color: white; border-color: #667eea; }
+    .artemis-link { color: #667eea; text-decoration: none; font-weight: 500; }
+    .artemis-link:hover { text-decoration: underline; }
+    @media (max-width: 480px) {
+      #artemis-chat-window { width: calc(100vw-40px); right: 20px; bottom: 90px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon"><i class="fas fa-table"></i></div>
+      <div class="logo-text">SmartSheet <span>Solution</span></div>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Changer le thème">
+      <i class="fas fa-moon"></i><i class="fas fa-sun"></i>
+    </button>
+    <nav>
+      <ul id="navMenu">
+        <li><a href="#home">Accueil</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">À Propos</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>SmartSheet Solution</h1>
+      <p class="slogan">« Simplifiez. Automatisez. Excellez. »</p>
+      <p>Applications Excel, Marketing, Maintenance Informatique et Portraits Réalistes "IA". Des solutions professionnelles complètes pour votre réussite.</p>
+      <div>
+        <a href="#services" class="btn"><i class="fas fa-rocket"></i> Découvrir</a>
+        <a href="https://wa.me/237656035929" class="btn btn-outline" target="_blank"><i class="fab fa-whatsapp"></i> Nous Contacter</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-title">
+      <h2>Nos 4 Pôles d'Expertise</h2>
+      <p>Des solutions sur mesure adaptées au marché camerounais</p>
+    </div>
+    <div class="products-grid">
+      <!-- Excel -->
+      <div class="product-card fade-in" onclick="openCatalog('excel')">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="Excel">
+          <span class="product-badge">Populaire</span>
+          <div class="product-overlay"><div class="view-catalog"><i class="fas fa-eye"></i> Voir</div></div>
+        </div>
+        <div class="product-info">
+          <h3>Pôle Excel</h3>
+          <p>Formations, applications sur mesure (EasyCaisse) et automatisation de vos fichiers existants.</p>
+          <span class="product-price">À partir de 30 000 FCFA</span>
+          <button class="explore-btn" onclick="event.stopPropagation(); openCatalog('excel')"><i class="fas fa-table"></i> Explorer</button>
+        </div>
+      </div>
+      
+      <!-- Marketing -->
+      <div class="product-card fade-in" onclick="openCatalog('marketing')">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=800&q=80" alt="Marketing">
+          <span class="product-badge">Stratégie</span>
+          <div class="product-overlay"><div class="view-catalog"><i class="fas fa-eye"></i> Voir</div></div>
+        </div>
+        <div class="product-info">
+          <h3>Pôle Marketing</h3>
+          <p>Formations, prestations pour entreprises et santé, conception de flyers et spots publicitaires.</p>
+          <span class="product-price">À partir de 15 000 FCFA</span>
+          <button class="explore-btn" onclick="event.stopPropagation(); openCatalog('marketing')"><i class="fas fa-bullhorn"></i> Explorer</button>
+        </div>
+      </div>
+      
+      <!-- Maintenance IT -->
+      <div class="product-card fade-in" onclick="openCatalog('maintenance')">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=800&q=80" alt="Maintenance">
+          <span class="product-badge">IT Pro</span>
+          <div class="product-overlay"><div class="view-catalog"><i class="fas fa-eye"></i> Voir</div></div>
+        </div>
+        <div class="product-info">
+          <h3>Maintenance Informatique</h3>
+          <p>Consultation, maintenance logicielle, matérielle et forfaits préventifs pour entreprises.</p>
+          <span class="product-price">À partir de 10 000 FCFA</span>
+          <button class="explore-btn" onclick="event.stopPropagation(); openCatalog('maintenance')"><i class="fas fa-tools"></i> Explorer</button>
+        </div>
+      </div>
+      
+      <!-- Portraits IA -->
+      <div class="product-card fade-in" onclick="openCatalog('portraits')">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&q=80" alt="Portraits">
+          <span class="product-badge">Art "IA"</span>
+          <div class="product-overlay"><div class="view-catalog"><i class="fas fa-eye"></i> Voir</div></div>
+        </div>
+        <div class="product-info">
+          <h3>Portraits Réalistes "IA"</h3>
+          <p>Portraits noir & blanc ou couleur de haute qualité, livrés avec un élégant cadre vitré.</p>
+          <span class="product-price">À partir de 10 000 FCFA</span>
+          <button class="explore-btn" onclick="event.stopPropagation(); openCatalog('portraits')"><i class="fas fa-paint-brush"></i> Explorer</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODALS -->
+  <!-- MODAL EXCEL -->
+  <div id="catalog-excel" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-table"></i> Pôle Excel</h2>
+        <p>Maîtrisez et automatisez votre gestion</p>
+        <button class="modal-close" onclick="closeCatalog('excel')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="catalog-grid">
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1543269664-76bc3997d9ea?w=600&q=80"><span class="catalog-item-badge">Formation</span></div>
+            <div class="catalog-item-info">
+              <h4>Formations Excel</h4>
+              <p>Initiation (30k), Perfectionnement (50k), Expert VBA (85k).</p>
+              <span class="catalog-item-price">Dès 30 000 FCFA</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Formation Excel', 'Dès 30 000 FCFA')"><i class="fab fa-whatsapp"></i> S'inscrire</button>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80"><span class="catalog-item-badge">Sur Mesure</span></div>
+            <div class="catalog-item-info">
+              <h4>Applications Excel</h4>
+              <p>Gestion de stock, caisse, RH, paie (ex: EasyCaisse).</p>
+              <span class="catalog-item-price">Dès 75 000 FCFA</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Application Excel Sur Mesure', 'Dès 75 000 FCFA')"><i class="fab fa-whatsapp"></i> Commander</button>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80"><span class="catalog-item-badge">Optimisation</span></div>
+            <div class="catalog-item-info">
+              <h4>Automatisation Fichiers</h4>
+              <p>Nettoyage, Power Query, Macros pour diviser votre temps de travail par 10.</p>
+              <span class="catalog-item-price">Forfait 50 000 FCFA</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Automatisation Fichier Existant', '50 000 FCFA')"><i class="fab fa-whatsapp"></i> Commander</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL MARKETING -->
+  <div id="catalog-marketing" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-bullhorn"></i> Pôle Marketing</h2>
+        <p>Développez votre visibilité et vos ventes</p>
+        <button class="modal-close" onclick="closeCatalog('marketing')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="catalog-grid">
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=600&q=80"><span class="catalog-item-badge">Formation</span></div>
+            <div class="catalog-item-info">
+              <h4>Formations Marketing</h4>
+              <p>Marketing Digital (50k) ou Marketing de la Santé (75k).</p>
+              <span class="catalog-item-price">Dès 50 000 FCFA</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Formation Marketing', 'Dès 50 000 FCFA')"><i class="fab fa-whatsapp"></i> S'inscrire</button>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80"><span class="catalog-item-badge">Prestation</span></div>
+            <div class="catalog-item-info">
+              <h4>Accompagnement & Stratégie</h4>
+              <p>Audit complet (150k) ou Community Management mensuel.</p>
+              <span class="catalog-item-price">Dès 100 000 FCFA/mois</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Accompagnement Marketing', 'Dès 100 000 FCFA')"><i class="fab fa-whatsapp"></i> Devis</button>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=80"><span class="catalog-item-badge">Design</span></div>
+            <div class="catalog-item-info">
+              <h4>Conception d'Outils</h4>
+              <p>Flyers/Affiches (15k) et Spots Publicitaires Vidéo (dès 100k).</p>
+              <span class="catalog-item-price">Dès 15 000 FCFA</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Conception Outil Marketing', 'Dès 15 000 FCFA')"><i class="fab fa-whatsapp"></i> Commander</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL MAINTENANCE -->
+  <div id="catalog-maintenance" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-tools"></i> Maintenance Informatique</h2>
+        <p>Intervention rapide et professionnelle</p>
+        <button class="modal-close" onclick="closeCatalog('maintenance')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="catalog-grid">
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&q=80"><span class="catalog-item-badge">Diagnostic</span></div>
+            <div class="catalog-item-info">
+              <h4>Consultation & Avis Pro</h4>
+              <p>Analyse et recommandations. Déductible si devis accepté.</p>
+              <span class="catalog-item-price">10 000 FCFA</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Consultation Maintenance', '10 000 FCFA')"><i class="fab fa-whatsapp"></i> Réserver</button>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?w=600&q=80"><span class="catalog-item-badge">Logiciel</span></div>
+            <div class="catalog-item-info">
+              <h4>Maintenance Logicielle</h4>
+              <p>Installation Windows/Office, antivirus, nettoyage virus.</p>
+              <span class="catalog-item-price">15 000 FCFA / machine</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Maintenance Logicielle', '15 000 FCFA')"><i class="fab fa-whatsapp"></i> Commander</button>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1591405351990-4726e331f141?w=600&q=80"><span class="catalog-item-badge">Matériel</span></div>
+            <div class="catalog-item-info">
+              <h4>Maintenance Matérielle</h4>
+              <p>Dépoussiérage, pâte thermique, upgrade RAM/SSD (hors pièces).</p>
+              <span class="catalog-item-price">15 000 à 25 000 FCFA</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Maintenance Matérielle', '15 000 à 25 000 FCFA')"><i class="fab fa-whatsapp"></i> Commander</button>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80"><span class="catalog-item-badge">Entreprise</span></div>
+            <div class="catalog-item-info">
+              <h4>Forfait Préventif</h4>
+              <p>Visite mensuelle, mises à jour, sauvegardes, support prioritaire (1-5 PC).</p>
+              <span class="catalog-item-price">35 000 FCFA / mois</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Forfait Maintenance Préventif', '35 000 FCFA/mois')"><i class="fab fa-whatsapp"></i> Souscrire</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PORTRAITS -->
+  <div id="catalog-portraits" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-paint-brush"></i> Portraits Réalistes "IA"</h2>
+        <p>Sublimez vos souvenirs. Cadre vitré inclus.</p>
+        <button class="modal-close" onclick="closeCatalog('portraits')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="catalog-grid">
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&q=80"><span class="catalog-item-badge">Format A4</span></div>
+            <div class="catalog-item-info">
+              <h4>Portrait Format A4</h4>
+              <p>Prix de base avec cadre vitré. Ajoutez option couleur ou N&B.</p>
+              <span class="catalog-item-price">10 000 FCFA (Base)</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Portrait A4', '10 000 FCFA (Base)')"><i class="fab fa-whatsapp"></i> Commander</button>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&q=80"><span class="catalog-item-badge">Format A3</span></div>
+            <div class="catalog-item-info">
+              <h4>Portrait Format A3</h4>
+              <p>Idéal pour un bureau ou un salon. Cadre vitré inclus.</p>
+              <span class="catalog-item-price">15 000 FCFA (Base)</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Portrait A3', '15 000 FCFA (Base)')"><i class="fab fa-whatsapp"></i> Commander</button>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&q=80"><span class="catalog-item-badge">Format A2</span></div>
+            <div class="catalog-item-info">
+              <h4>Portrait Format A2</h4>
+              <p>Grand format pour un impact visuel fort. Cadre vitré inclus.</p>
+              <span class="catalog-item-price">25 000 FCFA (Base)</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Portrait A2', '25 000 FCFA (Base)')"><i class="fab fa-whatsapp"></i> Commander</button>
+            </div>
+          </div>
+          <div class="catalog-item">
+            <div class="catalog-item-image"><img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&q=80"><span class="catalog-item-badge">Format A1</span></div>
+            <div class="catalog-item-info">
+              <h4>Portrait Format A1</h4>
+              <p>Format exceptionnel pour les grands espaces. Cadre vitré inclus.</p>
+              <span class="catalog-item-price">40 000 FCFA (Base)</span>
+              <button class="catalog-order-btn" onclick="orderProduct('Portrait A1', '40 000 FCFA (Base)')"><i class="fab fa-whatsapp"></i> Commander</button>
+            </div>
+          </div>
+        </div>
+        <div style="background: #fef3c7; padding: 1.5rem; border-radius: 12px; margin-top: 2rem; color: #92400e; border-left: 4px solid #f59e0b;">
+          <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-info-circle"></i> Comment calculer votre prix ?</h4>
+          <p>Le prix de base inclut le travail artistique et le <strong>cadre vitré</strong>.<br>
+          • Option <strong>Noir sur Blanc</strong> : Ajoutez <strong>+ 5 000 FCFA</strong><br>
+          • Option <strong>Couleur</strong> : Ajoutez <strong>+ 10 000 FCFA</strong><br><br>
+          <em>Exemple : Un portrait A4 en Couleur = 10 000 (Base) + 10 000 (Couleur) = <strong>20 000 FCFA</strong> tout compris.</em></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- À PROPOS -->
+  <section class="about" id="about">
+    <div class="section-title">
+      <h2>À Propos</h2>
+      <p>Notre mission : rendre la gestion, le marketing et l'art accessibles et professionnels.</p>
+    </div>
+    <div class="about-content">
+      <div class="about-text">
+        <h3>Expertise multi-domaines au service de votre réussite</h3>
+        <p>Chez <strong>SmartSheet Solution</strong>, nous offrons une gamme complète de services. Que vous soyez entrepreneur, manager ou particulier, nous concevons des solutions sur-mesure : de l'automatisation de votre caisse Excel à la création de votre spot publicitaire, en passant par la maintenance de votre parc informatique ou la réalisation d'un portrait réaliste d'exception.</p>
+        <div class="values">
+          <div class="value-item fade-in"><i class="fas fa-bolt"></i><h4>Efficacité</h4><p>Solutions rapides et automatisées</p></div>
+          <div class="value-item fade-in"><i class="fas fa-shield-alt"></i><h4>Fiabilité</h4><p>Services professionnels et durables</p></div>
+          <div class="value-item fade-in"><i class="fas fa-lightbulb"></i><h4>Clarté</h4><p>Tarifs transparents, sans surprise</p></div>
+        </div>
+      </div>
+      <div class="about-image"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" alt="Équipe"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="section-title">
+      <h2>Contact & Démarrage</h2>
+      <p>Prêt à optimiser votre activité ou commander un portrait ? Contactez-nous.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item"><i class="fab fa-whatsapp"></i><div><h4>WhatsApp</h4><p><a href="https://wa.me/237656035929" target="_blank">+237 6 56 03 59 29</a></p></div></div>
+        <div class="contact-item"><i class="fas fa-phone-alt"></i><div><h4>Téléphone</h4><p><a href="tel:+237692930213">+237 6 92 93 02 13</a></p></div></div>
+        <div class="contact-item"><i class="fas fa-envelope"></i><div><h4>Email</h4><p><a href="mailto:alaneemvoutou@icloud.com">alaneemvoutou@icloud.com</a></p></div></div>
+        <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div><h4>Localisation</h4><p>Cameroun • Services en ligne & présentiel</p></div></div>
+      </div>
+      <div class="whatsapp-box">
+        <h3><i class="fab fa-whatsapp"></i> Démarrer votre projet</h3>
+        <p>Décrivez votre besoin et nous vous recontacterons sous 24h.</p>
+        <div class="order-form">
+          <select id="productCategory">
+            <option value="">Sélectionnez un service</option>
+            <option value="Application Excel">💻 Application Excel</option>
+            <option value="Formation Excel">🎓 Formation Excel</option>
+            <option value="Marketing">📈 Marketing (Formation/Prestation)</option>
+            <option value="Maintenance Informatique">🔧 Maintenance IT</option>
+            <option value="Portrait Réaliste IA">🎨 Portrait Réaliste "IA"</option>
+          </select>
+          <input type="text" id="customerName" placeholder="Votre nom complet">
+          <textarea id="orderMessage" rows="3" placeholder="Décrivez votre projet (ex: Portrait A4 en couleur)..."></textarea>
+          <button class="whatsapp-btn" onclick="sendPreFilledWhatsApp()"><i class="fab fa-whatsapp"></i> Envoyer sur WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo" style="justify-content: center; margin-bottom: 1rem;">
+      <div class="logo-icon"><i class="fas fa-table"></i></div>
+      <div class="logo-text" style="color: var(--white);">SmartSheet <span>Solution</span></div>
+    </div>
+    <div class="social-links">
+      <a href="https://wa.me/237656035929" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="mailto:alaneemvoutou@icloud.com" title="Email"><i class="fas fa-envelope"></i></a>
+      <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+    <p>&copy; 2026 <strong>SmartSheet Solution</strong> (Emvoutou Paul Émile Gaël). Tous droits réservés.</p>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // Mobile Menu
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navMenu = document.getElementById('navMenu');
+    mobileToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      mobileToggle.innerHTML = navMenu.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+    });
+    document.querySelectorAll('#navMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      });
+    });
+
+    // Modals
+    function openCatalog(category) {
+      const modal = document.getElementById(`catalog-${category}`);
+      if (modal) { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    }
+    function closeCatalog(category) {
+      const modal = document.getElementById(`catalog-${category}`);
+      if (modal) { modal.classList.remove('active'); document.body.style.overflow = 'auto'; }
+    }
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = 'auto'; }
+      });
+    });
+
+    // WhatsApp Order
+    function orderProduct(productName, price) {
+      const phone = '237656035929';
+      const message = `Bonjour SmartSheet Solution,\n\nJe souhaite en savoir plus sur :\n\n📦 *${productName}*\n💰 Prix indiqué : ${price}\n\nMerci de me confirmer les détails.`;
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    function sendPreFilledWhatsApp() {
+      const category = document.getElementById('productCategory').value;
+      const name = document.getElementById('customerName').value.trim();
+      const details = document.getElementById('orderMessage').value.trim();
+      if (!category) { alert('Veuillez sélectionner un service.'); return; }
+      if (!name) { alert('Veuillez entrer votre nom.'); return; }
+      const phone = '237656035929';
+      let message = `🌟 *NOUVELLE DEMANDE*\n\n👤 Nom : ${name}\n📦 Service : ${category}\n`;
+      if (details) message += `📝 Détails : ${details}\n`;
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+      document.getElementById('productCategory').value = '';
+      document.getElementById('customerName').value = '';
+      document.getElementById('orderMessage').value = '';
+    }
+
+    // Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          navMenu.classList.remove('active');
+          mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Scroll Animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in, .product-card, .value-item').forEach(el => observer.observe(el));
+
+    // Theme Toggle
+    (function() {
+      const themeToggle = document.getElementById('theme-toggle');
+      const html = document.documentElement;
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        html.setAttribute('data-theme', 'dark');
+      }
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+      });
+    })();
+
+    // ===== ARTEMIS CHATBOT PERFORMANT =====
+    (function() {
+      const ARTEMIS_KNOWLEDGE = {
+        greetings: ["Bonjour ! 👋 Je suis <strong>Artemis</strong>, votre assistante. Comment puis-je vous aider aujourd'hui ? ✨"],
+        excel: ["📊 <strong>Pôle Excel</strong><br><br>• Formations : 30k (Initiation), 50k (Perfectionnement), 85k (Expert VBA)<br>• Applications sur mesure (ex: EasyCaisse) : dès 75 000 FCFA<br>• Automatisation de fichiers existants : Forfait 50 000 FCFA<br><br><a href='https://wa.me/237656035929' class='artemis-link' target='_blank'>👉 Commander sur WhatsApp</a>"],
+        marketing: ["📈 <strong>Pôle Marketing</strong><br><br>• Formations : Digital (50k), Santé (75k)<br>• Prestations : Audit (150k), Community Management (dès 100k/mois)<br>• Conception : Flyers (15k), Spots vidéo (dès 100k)<br><br><a href='https://wa.me/237656035929' class='artemis-link' target='_blank'>👉 Demander un devis</a>"],
+        maintenance: ["🔧 <strong>Maintenance Informatique</strong><br><br>• Consultation/Diagnostic : 10 000 FCFA<br>• Logicielle (Installation/Nettoyage) : 15 000 FCFA<br>• Matérielle (Nettoyage/Upgrade) : 15k à 25k FCFA<br>• Forfait Préventif Entreprise : 35 000 FCFA/mois<br><br><a href='https://wa.me/237656035929' class='artemis-link' target='_blank'>👉 Réserver une intervention</a>"],
+        portraits: ["🎨 <strong>Portraits Réalistes 'IA'</strong><br><br>Tarifs (Cadre vitré inclus) :<br>• A4 : 10 000 FCFA<br>• A3 : 15 000 FCFA<br>• A2 : 25 000 FCFA<br>• A1 : 40 000 FCFA<br><br>Options :<br>• Noir & Blanc : +5 000 FCFA<br>• Couleur : +10 000 FCFA<br><br><em>Ex: A4 Couleur = 20 000 FCFA tout compris.</em><br><br><a href='https://wa.me/237656035929' class='artemis-link' target='_blank'>👉 Commander mon portrait</a>"],
+        contact: ["📞 <strong>Contactez-nous</strong><br><br>📱 WhatsApp : <a href='https://wa.me/237656035929' class='artemis-link'>+237 6 56 03 59 29</a><br>📞 Tél : +237 6 92 93 02 13<br>✉️ Email : alaneemvoutou@icloud.com<br><br>Réponse garantie sous 24h ! 🚀"],
+        default: ["Je n'ai pas bien compris. 😅 Je peux vous renseigner sur :<br>• <strong>Excel</strong> (Formations/Applications)<br>• <strong>Marketing</strong><br>• <strong>Maintenance IT</strong><br>• <strong>Portraits Réalistes</strong><br><br>Ou contactez-nous directement : <a href='https://wa.me/237656035929' class='artemis-link' target='_blank'>📱 WhatsApp</a>"]
+      };
+
+      const toggleBtn = document.getElementById('artemis-chat-toggle');
+      const chatWindow = document.getElementById('artemis-chat-window');
+      const closeBtn = document.getElementById('artemis-close');
+      const messagesContainer = document.getElementById('artemis-messages');
+      const inputField = document.getElementById('artemis-input');
+      const sendBtn = document.getElementById('artemis-send');
+      const typingIndicator = document.getElementById('artemis-typing');
+      const quickReplies = document.querySelectorAll('.artemis-quick-reply');
+      let chatOpen = false;
+
+      function addMessage(text, isUser = false) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `artemis-message ${isUser ? 'artemis-user' : 'artemis-bot'}`;
+        msgDiv.innerHTML = text;
+        messagesContainer.appendChild(msgDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+
+      function showTyping() { typingIndicator.style.display = 'block'; messagesContainer.scrollTop = messagesContainer.scrollHeight; }
+      function hideTyping() { typingIndicator.style.display = 'none'; }
+
+      function generateResponse(msg) {
+        const lower = msg.toLowerCase();
+        if (/^(bonjour|salut|hello|coucou)/i.test(lower)) return ARTEMIS_KNOWLEDGE.greetings[0];
+        if (/excel|caisse|vba|formation excel|automatisation/i.test(lower)) return ARTEMIS_KNOWLEDGE.excel;
+        if (/marketing|flyer|affiche|spot|publicité|santé/i.test(lower)) return ARTEMIS_KNOWLEDGE.marketing;
+        if (/maintenance|informatique|pc|ordinateur|logiciel|matériel|virus/i.test(lower)) return ARTEMIS_KNOWLEDGE.maintenance;
+        if (/portrait|dessin|photo|cadre|noir et blanc|couleur|a4|a3|a2|a1|ia/i.test(lower)) return ARTEMIS_KNOWLEDGE.portraits;
+        if (/contact|téléphone|numéro|email|whatsapp|prix|tarif/i.test(lower)) return ARTEMIS_KNOWLEDGE.contact;
+        return ARTEMIS_KNOWLEDGE.default;
+      }
+
+      function handleUserMessage(message) {
+        if (!message.trim()) return;
+        addMessage(message, true);
+        inputField.value = '';
+        showTyping();
+        setTimeout(() => { 
+          hideTyping(); 
+          addMessage(generateResponse(message)); 
+        }, 600); // Réponse rapide et fluide
+      }
+
+      toggleBtn.addEventListener('click', () => {
+        chatOpen = !chatOpen;
+        chatWindow.style.display = chatOpen ? 'flex' : 'none';
+        toggleBtn.style.display = chatOpen ? 'none' : 'flex';
+        if (chatOpen) inputField.focus();
+      });
+      closeBtn.addEventListener('click', () => { chatOpen = false; chatWindow.style.display = 'none'; toggleBtn.style.display = 'flex'; });
+      sendBtn.addEventListener('click', () => handleUserMessage(inputField.value));
+      inputField.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleUserMessage(inputField.value); });
+      quickReplies.forEach(btn => btn.addEventListener('click', () => handleUserMessage(btn.getAttribute('data-msg'))));
+    })();
+  </script>
+</body>
+</html>
